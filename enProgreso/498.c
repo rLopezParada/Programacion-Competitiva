@@ -15,8 +15,8 @@ long long int pot(long long int a, long long int b){
 
 int main(){
 
-	char arr1[10000][1000];
-	char arr2[10000][1000];
+	char arr1[100000][1000];
+	char arr2[100000][1000];
 
 	int i,j,k,l,ncases;
 	for(i=0;scanf("%[^\n]",arr1[i])!=EOF;i++){
@@ -26,8 +26,8 @@ int main(){
 	}
 	ncases=i;
 
-	char auxc1[5];
-	char auxc2[5];
+	char auxc1[20];
+	char auxc2[20];
 	int auxi1[500];
 	int auxi2[500];
 	int tam1,tam2,p;
