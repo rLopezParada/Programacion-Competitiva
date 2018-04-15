@@ -2,8 +2,7 @@
 #include <string.h>
 
 int main(){
-	int n,i,j;
-	char smallest;
+	int n,i,j,indice,count;
 	scanf("%d",&n);
 	getchar();
 
@@ -18,10 +17,6 @@ int main(){
 	}
 
 	
-
-
-	int indice;
-
 	for(i=0;i<n;i++){
 		indice=i;
 		for(j=i+1;j<n;j++){
@@ -41,7 +36,7 @@ int main(){
 
 	char countries[n][76];
 	strcpy(countries[0],string[0]);
-	int count=1;
+	count=1;
 	for(i=1;i<n;i++){
 		if(strcmp(string[i-1],string[i])){
 			strcpy(countries[count],string[i]);
@@ -49,19 +44,17 @@ int main(){
 		}
 	}
 
-	
-
 	int score[count];
+
+
 	for(i=0;i<count;i++){
 		score[i]=0;
 	}
 
 	score[0]++;
-	int k;
 	j=0;
 	for(i=1;i<n;i++){
 		
-
 
 		if(strcmp(string[i-1],string[i])){
 			j++;
