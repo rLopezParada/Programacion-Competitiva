@@ -2,116 +2,159 @@
 #include <stdlib.h>
 #include <string.h>
 
-/*typedef struct {
+typedef struct {
 	char name[31];
-	int rank,
-		points,
+	int points,
 		games,
 		wins,
 		loses,
+		ties,
 		goalDifference,
 		goalsScored,
 		goalsAgainst;
-} team;*/
+} team;
 
-struct equipo{
-	char name[31];
-	int rank,
-		points,
-		games,
-		wins,
-		loses,
-		goalDifference,
-		goalsScored,
-		goalsAgainst;
-};
+int cmp(const void *a, const void *b){
+	int r = (*(team*)b).points-(*(team*)a).points;
+	if(r==0){
+		r = (*(team*)b).wins-(*(team*)a).wins;
+	}
+	if(r==0){
+		r = (*(team*)b).goalDifference-(*(team*)a).goalDifference;
+	}
+	if(r==0){
+		r = (*(team*)b).goalsScored-(*(team*)a).goalsScored;
+	}
+	if(r==0){
+		r = (*(team*)a).games-(*(team*)b).games;
+	}
+	if(r==0){
+		r = strcmp((*(team*)a).name,(*(team*)b).name);
+	}
+	return r;
+}
 
-typedef struct equipo team;
+int main(){	
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	
+	int n,ncases,t,i,j,g,p1,p2,l1,l2,l3;
 
-int main(){
-	int n,t,i,g;
-
-	scanf("%d",&n);
+	scanf("%d",&ncases);
 	getchar();
-	printf("n=%d\n",n);
 
-	char tournamentName[101];
+	char tournamentName[101],input[66],str[31];
+	char* ptr;
 
 	team* teams;
+	team* team1;
+	team* team2;
 
-	scanf("%[^\n]",tournamentName);
-	getchar();
-	printf("tournamentName=%s\n",tournamentName);
-
-	scanf("%d",&t);
-	getchar();
-	printf("t=%d\n",t);
-
-	teams=(team*)malloc(t*sizeof(team));
-	for(i=0;i<t;i++){
-		scanf("%[^\n]",teams[i].name);
+	for(n=0;n<ncases;n++){
+		scanf("%[^\n]",tournamentName);
 		getchar();
-		printf("team%d=%s\n",i,teams[i].name);
 
-		teams[i].rank=0;
-		teams[i].points=0;
-		teams[i].games=0;
-		teams[i].wins=0;
-		teams[i].loses=0;
-		teams[i].goalDifference=0;
-		teams[i].goalsScored=0;
-		teams[i].goalsAgainst=0;
-	}
-
-	scanf("%d",&g);
-	getchar();
-	printf("g=%d\n",g);
-
-
-	char input[66];
-	team* team1,team2;
-	int p1,p2;
-	char* ptr;
-	int l1,l2,l3;
-	int j;
-	char str[31];
-	for(i=0;i<g;i++){
-		scanf("%[^\n]",input);
+		scanf("%d",&t);
 		getchar();
-		ptr=strchr(input,'#');
-		l1=ptr-input;
-		ptr=strchr(input,'@');
-		l2=ptr-input;
-		ptr=strrchr(input,'#');
-		l3=ptr-input;
-		ptr=input+l1+1;
-		sscanf(ptr,"%d",&p1);
-		ptr=input+l2+1;
-		sscanf(ptr,"%d",&p2);
 
-		printf("%d-%d\n",p1,p2);
+		teams=(team*)malloc(t*sizeof(team));
+		for(i=0;i<t;i++){
+			scanf("%[^\n]",teams[i].name);
+			getchar();
 
-		strncpy(str,input,l1);
-		str[l1]=0;
-
-		for(j=0;j<t;j++){
-			if(strcmp(str,teams[j].name)==0){
-				team1=&teams[j];
-				break;
-			}
+			teams[i].points=0;
+			teams[i].games=0;
+			teams[i].wins=0;
+			teams[i].loses=0;
+			teams[i].ties=0;
+			teams[i].goalDifference=0;
+			teams[i].goalsScored=0;
+			teams[i].goalsAgainst=0;
 		}
 
-		strcpy(str,input+l3+1);
-		for(j=0;j<t;j++){
-			if(strcmp(str,teams[j].name)==0){
-				team2=&teams[j];
-				break;
+		scanf("%d",&g);
+		getchar();
+
+		for(i=0;i<g;i++){
+			scanf("%[^\n]",input);
+			getchar();
+			ptr=strchr(input,'#');
+			l1=ptr-input;
+			ptr=strchr(input,'@');
+			l2=ptr-input;
+			ptr=strrchr(input,'#');
+			l3=ptr-input;
+			ptr=input+l1+1;
+			sscanf(ptr,"%d",&p1);
+			ptr=input+l2+1;
+			sscanf(ptr,"%d",&p2);
+
+
+			strncpy(str,input,l1);
+			str[l1]=0;
+
+			for(j=0;j<t;j++){
+				if(strcmp(str,teams[j].name)==0){
+					team1=&teams[j];
+					break;
+				}
+			}
+
+			strcpy(str,input+l3+1);
+			for(j=0;j<t;j++){
+				if(strcmp(str,teams[j].name)==0){
+					team2=&teams[j];
+					break;
+				}
+			}
+
+			(*team1).games++;
+			(*team2).games++;
+			(*team1).goalsScored+=p1;
+			(*team2).goalsScored+=p2;
+			(*team1).goalsAgainst+=p2;
+			(*team2).goalsAgainst+=p1;
+			if(p1>p2){
+				(*team1).wins++;
+				(*team1).points+=3;
+				(*team2).loses++;
+			}
+			else if(p1<p2){
+				(*team1).loses++;
+				(*team2).wins++;
+				(*team2).points+=3;
+			}
+			else if(p1==p2){
+				(*team1).points++;
+				(*team1).ties++;
+				(*team2).points++;
+				(*team2).ties++;
 			}
 		}
-		printf("team1=%s team2=%s\n",(*team1).name,(*team2).name);
+		for(i=0;i<t;i++){
+			teams[i].goalDifference=teams[i].goalsScored-teams[i].goalsAgainst;
+		}
+		qsort(teams,t,sizeof(team),cmp);
+		
+		printf("%s\n",tournamentName);
+		for(i=0;i<t;i++){
+			printf("%d) %s %dp, %dg (%d-%d-%d), %dgd (%d-%d)\n",
+				i+1,
+				teams[i].name,
+				teams[i].points,
+				teams[i].games,
+				teams[i].wins,
+				teams[i].ties,
+				teams[i].loses,
+				teams[i].goalDifference,
+				teams[i].goalsScored,
+				teams[i].goalsAgainst);
+		}
+		free(teams);
+		if(n!=ncases-1){
+			printf("\n");
+		}
 	}
-
-	free(teams);
 
 	return 0;
 
