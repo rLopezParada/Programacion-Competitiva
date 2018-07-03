@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-/*727 blue zenith*/
-
 void removeS(char** in,int index){
 	int l=0;
 	int i;
@@ -36,7 +34,7 @@ void solve(char** in){
 	}
 	
 	for(i=0;in[i][0]!=0 && in[i][0]!=')';i++){
-		if(in[i][0]=='*' ??!??! in[i][0]=='/'){	/*risa malvada*/
+		if(in[i][0]=='*' || in[i][0]=='/'){
 			strcat(in[i-1],in[i+1]);
 			strcat(in[i-1],in[i]);
 			removeS(in,i+1);
@@ -45,7 +43,7 @@ void solve(char** in){
 		}
 	}
 	for(i=0;in[i][0]!=0 && in[i][0]!=')';i++){
-		if(in[i][0]=='+' ??!??! in[i][0]=='-'){
+		if(in[i][0]=='+' || in[i][0]=='-'){
 			strcat(in[i-1],in[i+1]);
 			strcat(in[i-1],in[i]);
 			removeS(in,i+1);
