@@ -1,4 +1,5 @@
 //codigo propio
+//no se usar diccionarios
 #include <iostream>
 using namespace std;
 
