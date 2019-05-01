@@ -10,7 +10,7 @@ char back;
 
 void TLE(){
 	//cout << "seq: " << seq << endl;
-	if(it2 == it2End){
+	if(it1 == it1End && it2 == it2End){
 		int i, aux = maxOps - 1;
 		for(i=0; i<aux; i++){
 			cout << (char)seq[i] << " "; 
@@ -19,7 +19,7 @@ void TLE(){
 		//cout << "accept: "<< seq << endl;
 		return;
 	}
-	if(it1 != it1End){
+	if(it1 != it1End && it2 != it2End){	//primero i tal vez
 		stack += *it1++;
 		seq += 'i';
 		TLE();
@@ -28,7 +28,7 @@ void TLE(){
 		stack.pop_back();
 	}
 	back = stack.back();
-	if(!stack.empty() && back==*it2){
+	if(!stack.empty() && back==*it2){	//luego o tal vez
 		it2++;
 		popped += back;
 		stack.pop_back();
