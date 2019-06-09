@@ -13,9 +13,7 @@ int main(){
 		last = -1;
 		for(int i = 0; i < n; i++){
 			cin >> aux;
-			if(snows.count(aux)==0){
-				yet++;
-			}
+			if(snows.count(aux)==0) yet++;
 			else{
 				if(snows[aux] > last) last = snows[aux];
 				yet = i - last;
